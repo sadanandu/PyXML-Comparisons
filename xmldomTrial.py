@@ -82,6 +82,14 @@ def AddNewNodeToDoc():
     firstSwiftTag.insertBefore(element, firstSwiftTag.lastChild)
     print doc.toxml()
 
+def GetSetAttribute():
+    doc = ParsingXmlFromFile()
+    firstSwiftTag = doc.getElementsByTagName('SWIFT')[0]
+    print firstSwiftTag.getAttribute('ID')
+    firstSwiftTag.setAttribute('EmptyTag', 'False')
+    print firstSwiftTag.attributes.items()
+    print firstSwiftTag.getAttribute('EmptyTag')
+
 def DeletingNode():
     doc = ParsingXmlFromFile()
     node = doc.getElementsByTagName(tagName)[0]

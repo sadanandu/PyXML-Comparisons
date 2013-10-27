@@ -76,62 +76,69 @@ def AddNewNodeToDoc():
     firstSwiftTag.insert(10, element)
     print ET.tostring(root)
 
-AddNewNodeToDoc()
-##element acts as python list
-##one = root[0]
-##print one
-##print len(root)
-##if len(root):  #to check if element has children
-##    print 'Has children'
+def GetSetAttribute():
+    doc = ParsingXmlFromFile()
+    root = doc.getroot()
+    firstSwiftTag = doc.find('SWIFT')
+    print firstSwiftTag.get('ID')
+    firstSwiftTag.set('EmptyTag', 'False')
+    print firstSwiftTag.attrib
+    print firstSwiftTag.get('EmptyTag')
 
-###Same element can appear in two different trees causing a change in one tree to reflect in other tree also
-##root1 = ET.Element('root1')
-##root1.append(one)
-##one = root1[0]
-##one.attrib['font'] = 'small'
-##orgOne = root[0]
-##assert one.attrib['font'] == orgOne.attrib['font']
+tagName = 'BUY_AMOUNT'
+def DeletingNode():
+    doc = ParsingXmlFromFile()
+    root = doc.getroot()
+    root.find('SWIFT').remove(root.find('SWIFT').find(tagName))
+    print ET.tostring(root)
 
+tagName = 'BUY_AMOUNT'
+def ReplaceNode():
+    doc = ParsingXmlFromFile()
+    root = doc.getroot()
+    print 'Before Replacing'
+    print ET.tostring(root)
+    firstSwiftTag = root.find('SWIFT')
+    targetNode = firstSwiftTag.find(tagName)
+    indexOfTargetNode = [index for index, node in enumerate(firstSwiftTag)  if targetNode == node][0]
+    newNode = ET.Element('SELL_AMOUNT')
+    newNode.text = '101'
+    firstSwiftTag.insert(indexOfTargetNode, newNode)
+    firstSwiftTag.remove(targetNode)
+    print 'After Replacing'
+    print ET.tostring(root)
 
-##
-###Adding or removing attribute
-###gets value of attribute
-##print element.get('ID')
-###prints all attributes attrib is a dictionary.
-##print element.attrib, element.keys(), element.items()
-###adds a new attribute
-##element.set('ID1', 'secondID')
-##print element.attrib, element.keys(), element.items()
-###to remove attribute you have to pop that attribute from attrib dictionary
-##element.attrib.pop('ID1')
-##print element.attrib, element.keys(), element.items()
-##
-###remove/replace/insert a node
-##element.remove(element.find('SEQREF'))
-##assert element.findall('SEQREF') == []
-##element.insert(10, ET.Element('SEQREF'))
-##assert element.find('SEQREF') != []
-###no direct API to replace a node need to remove a node and insert a new node at its place
-##
-##
-###merging two xmls disturbs the formatting
-##xmlString2 = '''
-##<SWIFT>
-##    <NEWTAG1>hello</NEWTAG1>
-##    <NEWTAG2>bye</NEWTAG2>
-##    <NEWTAG3>tata</NEWTAG3>
-##</SWIFT>'''
-##
-##secondXml = ET.fromstring(xmlString2)
-##for eachNode in secondXml.getchildren():
-##    element.append(eachNode)
-###print ET.tostring(element)
-##
-##
-###XPATH support
-###finds a tag named SELL_RECEIVING_AGENT_ADDRESS
-##tag = xml.find('./SWIFT/SELL_RECEIVING_AGENT_ADDRESS')
-##print ET.tostring(tag)
-###finds all children of  current tag
-##tags = xml.findall("./*")
-##print tags
+def MergeXmls():
+    doc = ParsingXmlFromFile()
+    originalRoot = doc.getroot()
+    print 'Before merging'
+    print ET.tostring(originalRoot)
+    originalSwiftTag = originalRoot.find('SWIFT')
+    xmlString2 = '''
+<SWIFT>
+     <NEWTAG1>hello</NEWTAG1>
+     <NEWTAG2>bye</NEWTAG2>
+     <NEWTAG3>tata</NEWTAG3>
+</SWIFT>'''
+
+    xmlToBeMerged = ET.fromstring(xmlString2)
+    #appending all children of current tag
+    for eachTag in xmlToBeMerged.findall('./*'):
+        originalSwiftTag.append(eachTag)
+    print 'After Merging'
+    print ET.tostring(originalRoot)
+
+def UseXPathSupport():
+    doc = ParsingXmlFromFile()
+    root = doc.getroot()
+    print 'All children of root'
+    print root.findall('./*')
+    print 'BUY_INTERMEDIARY_OPTION from root'
+    print root.find('./SWIFT/BUY_INTERMEDIARY_OPTION')
+
+def PythonicUseOfET():
+    doc = ParsingXmlFromFile()
+    root = doc.getroot()
+    print 'Root acts as a list of elements'
+    for aChild in root:
+        print aChild
