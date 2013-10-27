@@ -128,4 +128,31 @@ def MergeXmls():
 #No XPATH support
 #Need to install PyXML but this library is not maintained now
 
+def ImportingNodes():
+    doc= ParsingXmlFromFile()
+    swift = doc.getElementsByTagName('SWIFT')[0]
+    print 'Import node with shallow copy'
+    importedNode = doc.importNode(swift, False) #No Deep Copy
+    print importedNode
+    print importedNode.childNodes
+    print 'Import node with deep copy'
+    importedNode = doc.importNode(swift, True) #Deep Copy
+    print importedNode
+    print importedNode.childNodes
 
+def GetSiblings():
+    xmlString = '''<ROOT><TAG1>Week</TAG1><TAG2>Month</TAG2></ROOT>'''
+    doc = dom.parseString(xmlString)
+    tag1 = doc.getElementsByTagName('TAG1')[0]
+    print tag1.nextSibling
+    print tag1.previousSibling
+    print tag1.nextSibling.previousSibling
+
+def GetChildren():
+    xmlString = '''<ROOT><TAG1>Week</TAG1><TAG2>Month</TAG2></ROOT>'''
+    doc = dom.parseString(xmlString)
+    root = doc.firstChild
+    print 'Last child of root'
+    print root.lastChild
+    print 'First child of root'
+    print root.firstChild
