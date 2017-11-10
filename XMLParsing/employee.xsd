@@ -1,0 +1,18 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="EMPLOYEEDB" type= "EMPLOYEEDBType"/>
+  
+  <xsd:complexType name="EMPLOYEEDBType">
+       <xsd:sequence>
+            <xsd:element name="EMPLOYEE" type="EmployeeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+  </xsd:complexType>
+  
+  
+  <xsd:complexType name="EmployeeType" >
+    <xsd:sequence>
+      <xsd:element name="EMPID" type="xsd:string"/>
+      <xsd:element name="SALARY" type="xsd:string"/>
+      <xsd:element name="DEPT_ID" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
