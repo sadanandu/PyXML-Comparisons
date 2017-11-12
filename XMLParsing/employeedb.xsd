@@ -1,0 +1,12 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="employee.xsd"/>
+  <xsd:element name="EMPLOYEEDB">
+      <xsd:complexType>
+          <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="EMPLOYEE"/>
+          </xsd:sequence>
+      </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
+
+
